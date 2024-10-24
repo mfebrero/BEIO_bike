@@ -13,19 +13,19 @@ ddays=unique(datan$dteday)
  atmin=-16; atmax=50
  fhum=100
  fws=67
-# Conversión a datos funcionales
+# ConversiÃ³n a datos funcionales
 tj=seq(0.5,23.5)
 y0=fdata(matrix(datan$casual,ncol=24,byrow=TRUE),tj,c(0,24),
 		names=list(main="NBCR",xlab="Hora",ylab="NBCR"))
 nbcr=apply(y0$data,1,sum)
 Temp=fdata(matrix(tmin+datan$temp*(tmax-tmin),ncol=24,byrow=TRUE),tj,c(0,24),
-		names=list(main="Temperatura",xlab="Hora",ylab="ºC"))
+		names=list(main="Temperatura",xlab="Hora",ylab="ÂºC"))
 Hum=fdata(matrix(fhum*datan$hum,ncol=24,byrow=TRUE),tj,c(0,24),
 		names=list(main="Humedad",xlab="Hora",ylab=""))
 WS=fdata(matrix(fws*datan$windspeed,ncol=24,byrow=TRUE),tj,c(0,24),
 		names=list(main="Vel. Viento",xlab="Hora",ylab=""))
 FT=fdata(matrix(atmin+datan$atemp*(atmax-atmin),ncol=24,byrow=TRUE),tj,c(0,24),
-		names=list(main="Sensación Térmica",xlab="Hora",ylab="ºC"))
+		names=list(main="SensaciÃ³n TÃ©rmica",xlab="Hora",ylab="ÂºC"))
 ldatm=ldata(df=data.frame(nbcr=nbcr,lnbcr=log(nbcr)),y=y0,Temp=Temp,Hum=Hum,WS=WS,FT=FT)
 
 source("color.bar.R")
@@ -59,7 +59,7 @@ summary(rFT)
 pdf(file="FTregre.pdf",width=10.67,height=6)
 par(mfrow=c(1,2))
 plot(rHum,which=1,main="Humedad")
-plot(rFT,which=1,main="Sensación Térmica")
+plot(rFT,which=1,main="SensaciÃ³n TÃ©rmica")
 dev.off()
 
 out.Hum=rp.flm.test(Hum,log(nbcr),B=2000)
