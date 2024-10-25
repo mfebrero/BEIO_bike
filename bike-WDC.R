@@ -68,18 +68,57 @@ out.FT=rp.flm.test(FT,log(nbcr),B=2000)
 out.FT$p.values.fdr
 #out.WS=rp.flm.test(WS,log(nbcr),B=2000)
 
-#CvM projections
+#CvM projections Hum
 par(mfrow=c(2,5))
 for (i in 1:10) {
-	rr=range(c(out$boot.proj.statistics[i,1,],out$proj.statistics[i,1]))
-	plot(density(out$boot.proj.statistics[i,1,]),main=paste0("CVM - Random Proj.:",i),xlim=rr)
-	abline(v=out$proj.statistics[i,1],col="red")
+	rr=range(c(out.Hum$boot.proj.statistics[i,1,],out.Hum$proj.statistics[i,1]))
+	plot(density(out.Hum$boot.proj.statistics[i,1,]),main=paste0("Hum/CvM - R.P.:",i),xlim=rr)
+	abline(v=out.Hum$proj.statistics[i,1],col="red")
 	}
  
-#KS projections
+#KS projections FT
 par(mfrow=c(2,5))
 for (i in 1:10) {
-	rr=range(c(out$boot.proj.statistics[i,2,],out$proj.statistics[i,2]))
-	plot(density(out$boot.proj.statistics[i,2,]),main=paste0("KS - Random Proj.:",i),xlim=rr)
-	abline(v=out$proj.statistics[i,2],col="red")
+	rr=range(c(out.Hum$boot.proj.statistics[i,2,],out.Hum$proj.statistics[i,2]))
+	plot(density(out.Hum$boot.proj.statistics[i,2,]),main=paste0("Hum/KS - R.P.:",i),xlim=rr)
+	abline(v=out.Hum$proj.statistics[i,2],col="red")
 	}
+
+#CvM projections FT
+par(mfrow=c(2,5))
+for (i in 1:10) {
+	rr=range(c(out.FT$boot.proj.statistics[i,1,],out.FT$proj.statistics[i,1]))
+	plot(density(out.FT$boot.proj.statistics[i,1,]),main=paste0("FT/CvM - R.P.:",i),xlim=rr)
+	abline(v=out.FT$proj.statistics[i,1],col="red")
+	}
+ 
+#KS projections FT
+par(mfrow=c(2,5))
+for (i in 1:10) {
+	rr=range(c(out.FT$boot.proj.statistics[i,2,],out.FT$proj.statistics[i,2]))
+	plot(density(out.FT$boot.proj.statistics[i,2,]),main=paste0("FT/KS - R.P.:",i),xlim=rr)
+	abline(v=out.FT$proj.statistics[i,2],col="red")
+	}
+	
+
+# Modelo final
+
+rmod=fregre.gsam(lnbcr~Hum+s(FT),data=ldatm,basis.x=b.x)
+summary(rmod)
+
+# Diagnósticos gráficos
+par(mfrow=c(1,3))
+plot(rmod$y~rmod$fitted.values,xlab="Fitted values",ylab="Response",main="log(NBCR)~Hum+f(ST)",
+sub=paste0(	"R^2=",round(1 - var((as.numeric(rmod$y) - rmod$fitted.values)) * 
+        (length(rmod$y) - 1)/(var((as.numeric(rmod$y) - mean(rmod$y))) * 
+        rmod$df.residual),3)))
+
+plot(rmod$residuals~rmod$fitted.values,xlab="Fitted values",ylab="Residuals",main="log(NBCR)~Hum+f(ST)")
+lines(lowess(rmod$fitted.values,rmod$residuals),lwd=2,col="red")
+
+yl <- as.expression(substitute(sqrt(abs(YL)), list(YL = "Std. resid.")))
+resid.sd=abs(rmod$residuals)/sd(rmod$residuals)
+plot(sqrt(resid.sd)~rmod$fitted.values,xlab="Fitted values",ylab=yl,main="log(NBCR)~Hum+f(ST)",sub="Scale-Location")
+lines(lowess(rmod$fitted.values,sqrt(resid.sd)),lwd=2,col="red")
+
+
