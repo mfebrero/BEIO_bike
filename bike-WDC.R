@@ -25,7 +25,7 @@ Hum=fdata(matrix(fhum*datan$hum,ncol=24,byrow=TRUE),tj,c(0,24),
 WS=fdata(matrix(fws*datan$windspeed,ncol=24,byrow=TRUE),tj,c(0,24),
 		names=list(main="Vel. Viento",xlab="Hora",ylab=""))
 FT=fdata(matrix(atmin+datan$atemp*(atmax-atmin),ncol=24,byrow=TRUE),tj,c(0,24),
-		names=list(main="Sensación Térmica",xlab="Hora",ylab="ºC"))
+		names=list(main="Sensación térmica",xlab="Hora",ylab="ºC"))
 ldatm=ldata(df=data.frame(nbcr=nbcr,lnbcr=log(nbcr)),y=y0,Temp=Temp,Hum=Hum,WS=WS,FT=FT)
 
 source("color.bar.R")
@@ -40,7 +40,7 @@ plot(Hum,col=colores,ylim=c(0,105),lwd=2)
 color.bar(colores,min(log(nbcr)),max(log(nbcr)),xpos=0)
 #plot(WS,col=colores,ylim=c(0,60),lwd=2)
 #color.bar(colores,min(log(nbcr)),max(log(nbcr)))
-plot(FT,col=colores,ylim=c(0,50),lwd=2)
+plot(FT,col=colores,ylim=c(-10,50),lwd=2)
 color.bar(colores,min(log(nbcr)),max(log(nbcr)))
 dev.off()
 
@@ -59,7 +59,7 @@ summary(rFT)
 pdf(file="FTregre.pdf",width=10.67,height=6)
 par(mfrow=c(1,2))
 plot(rHum,which=1,main="Humedad")
-plot(rFT,which=1,main="Sensación Térmica")
+plot(rFT,which=1,main="Sensación térmica")
 dev.off()
 
 out.Hum=rp.flm.test(Hum,log(nbcr),B=2000)
@@ -75,7 +75,7 @@ for (i in 1:10) {
 	plot(density(out.Hum$boot.proj.statistics[i,1,]),main=paste0("Hum/CvM - R.P.:",i),xlim=rr)
 	abline(v=out.Hum$proj.statistics[i,1],col="red")
 	}
- 
+
 #KS projections FT
 par(mfrow=c(2,5))
 for (i in 1:10) {
@@ -91,7 +91,7 @@ for (i in 1:10) {
 	plot(density(out.FT$boot.proj.statistics[i,1,]),main=paste0("FT/CvM - R.P.:",i),xlim=rr)
 	abline(v=out.FT$proj.statistics[i,1],col="red")
 	}
- 
+
 #KS projections FT
 par(mfrow=c(2,5))
 for (i in 1:10) {
@@ -99,7 +99,7 @@ for (i in 1:10) {
 	plot(density(out.FT$boot.proj.statistics[i,2,]),main=paste0("FT/KS - R.P.:",i),xlim=rr)
 	abline(v=out.FT$proj.statistics[i,2],col="red")
 	}
-	
+
 
 # Modelo final
 
@@ -109,8 +109,8 @@ summary(rmod)
 # Diagnósticos gráficos
 par(mfrow=c(1,3))
 plot(rmod$y~rmod$fitted.values,xlab="Fitted values",ylab="Response",main="log(NBCR)~Hum+f(ST)",
-sub=paste0(	"R^2=",round(1 - var((as.numeric(rmod$y) - rmod$fitted.values)) * 
-        (length(rmod$y) - 1)/(var((as.numeric(rmod$y) - mean(rmod$y))) * 
+sub=paste0(	"R^2=",round(1 - var((as.numeric(rmod$y) - rmod$fitted.values)) *
+        (length(rmod$y) - 1)/(var((as.numeric(rmod$y) - mean(rmod$y))) *
         rmod$df.residual),3)))
 
 plot(rmod$residuals~rmod$fitted.values,xlab="Fitted values",ylab="Residuals",main="log(NBCR)~Hum+f(ST)")
