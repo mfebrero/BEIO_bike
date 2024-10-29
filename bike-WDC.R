@@ -36,7 +36,7 @@ WS <- fdata(mdata = matrix(fws * datan$windspeed, ncol = 24, byrow = TRUE),
             names = list(main = "Vel. Viento", xlab = "Hora", ylab = ""))
 FT <- fdata(mdata = matrix(atmin + datan$atemp * (atmax - atmin), ncol = 24,
                            byrow = TRUE), argvals = tj, rangeval = c(0, 24),
-            names = list(main = "Sensación térmica", xlab = "Hora",
+            names = list(main = "Sens. térmica", xlab = "Hora",
                          ylab = "ºC"))
 ldatm <- ldata(df = data.frame(nbcr = nbcr, lnbcr = log(nbcr)), y = y0,
                Temp = Temp, Hum = Hum, WS = WS, FT = FT)
@@ -71,7 +71,7 @@ summary(rFT)
 pdf(file = "FTregre.pdf", width = 10.67, height = 6)
 par(mfrow = c(1, 2))
 plot(rHum, which = 1, main = "Humedad")
-plot(rFT, which = 1, main = "Sensación térmica")
+plot(rFT, which = 1, main = "Sens. térmica")
 dev.off()
 
 # Tests
@@ -108,7 +108,7 @@ for (i in 1:10) {
   rr <- range(c(test.FT$boot.proj.statistics[i, 1, ],
                 test.FT$proj.statistics[i, 1]))
   plot(density(test.FT$boot.proj.statistics[i, 1, ]),
-       main = paste0("Sen.t./CvM - R.P.:", i), xlim = rr)
+       main = paste0("Sens. térmica/CvM - R.P.:", i), xlim = rr)
   abline(v = test.FT$proj.statistics[i, 1], col = "red")
 }
 
@@ -118,6 +118,6 @@ for (i in 1:10) {
   rr <- range(c(test.FT$boot.proj.statistics[i, 2, ],
                 test.FT$proj.statistics[i, 2]))
   plot(density(test.FT$boot.proj.statistics[i, 2, ]),
-       main = paste0("Sen.t./KS - R.P.:", i), xlim = rr)
+       main = paste0("Sens. térmica/KS - R.P.:", i), xlim = rr)
   abline(v = test.FT$proj.statistics[i, 2], col = "red")
 }
