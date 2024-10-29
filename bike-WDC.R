@@ -36,7 +36,7 @@ WS <- fdata(mdata = matrix(fws * datan$windspeed, ncol = 24, byrow = TRUE),
             names = list(main = "Vel. Viento", xlab = "Hora", ylab = ""))
 FT <- fdata(mdata = matrix(atmin + datan$atemp * (atmax - atmin), ncol = 24,
                            byrow = TRUE), argvals = tj, rangeval = c(0, 24),
-            names = list(main = "Sensación térmica", xlab = "Hora",
+            names = list(main = "Sens. térmica", xlab = "Hora",
                          ylab = "ºC"))
 ldatm <- ldata(df = data.frame(nbcr = nbcr, lnbcr = log(nbcr)), y = y0,
                Temp = Temp, Hum = Hum, WS = WS, FT = FT)
@@ -71,7 +71,7 @@ summary(rFT)
 pdf(file = "FTregre.pdf", width = 10.67, height = 6)
 par(mfrow = c(1, 2))
 plot(rHum, which = 1, main = "Humedad")
-plot(rFT, which = 1, main = "Sensación térmica")
+plot(rFT, which = 1, main = "Sens. térmica")
 dev.off()
 
 # Tests
