@@ -88,7 +88,7 @@ for (i in 1:10) {
   rr <- range(c(test.Hum$boot.proj.statistics[i, 1, ],
                 test.Hum$proj.statistics[i, 1]))
   plot(density(test.Hum$boot.proj.statistics[i, 1, ]),
-       main = paste0("Hum/CvM - R.P.:", i), xlim = rr)
+       main = paste0("Hum./CvM - R.P.:", i), xlim = rr)
   abline(v = test.Hum$proj.statistics[i, 1], col = "red")
 }
 
@@ -98,7 +98,7 @@ for (i in 1:10) {
   rr <- range(c(test.Hum$boot.proj.statistics[i, 2, ],
                 test.Hum$proj.statistics[i, 2]))
   plot(density(test.Hum$boot.proj.statistics[i, 2, ]),
-       main = paste0("Hum/KS - R.P.:", i), xlim = rr)
+       main = paste0("Hum./KS - R.P.:", i), xlim = rr)
   abline(v = test.Hum$proj.statistics[i, 2], col = "red")
 }
 
